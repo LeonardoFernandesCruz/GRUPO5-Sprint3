@@ -1,0 +1,31 @@
+ROUTER:
+enable
+conf t
+banner motd "ACESSO AO ROUTER, ACESSO RESTRITO!"
+username kawanfelix privilege 15 secret CasaTarly
+username rakelpaula privilege 15 secret CasaTarly
+username carlospaulo privilege 15 secret CasaTarly
+username leonardocruz privilege 15 secret CasaTarly
+security passwords min-lengt 8
+login block-for 4 attempts 7 within 10
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 5
+do wr
+hostname RT-01
+interface giga 0/2
+no shutdown
+exit
+interface giga 0/2.25
+encapsulation dot1Q 25
+ip address 192.168.25.1 255.255.255.0
+ip helper-address 192.168.250.5 
+no shutdown
+exit
+interface giga 0/2.125
+encapsulation dot1Q 125
+ip address 192.168.250.1 255.255.255.0
+no shutdown
+do wr
