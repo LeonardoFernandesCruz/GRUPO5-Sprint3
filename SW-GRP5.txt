@@ -1,0 +1,52 @@
+SW-GRP5:
+enable
+conf t
+banner motd "ACESSO RESTRITO PARA O GRUPO-05!"
+enable secret SenhadaEnable
+username kawanfelix privilege 15 secret CasaTarly
+username rakelpaula privilege 15 secret CasaTarly
+username carlospaulo privilege 15 secret CasaTarly
+username leonardocruz privilege 15 secret CasaTarly
+line vty 0 15
+transport input ssh
+exec-timeout 5
+exit
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+do wr
+end
+conf t
+hostname SW-GRP5
+vlan 25
+name VLAN-25
+vlan 99
+name VLAN-NATIVE
+vlan 115
+name VLAN-125
+exit
+interface fast 0/1
+switchport mode access
+switchport acces vlan 25
+description PC-01
+no shutdown
+exit
+interface fast 0/2
+switchport mode access
+switchport access vlan 25
+description PC-02
+ip domain-name grupo5.local
+ip default-gateway 192.168.250.1 
+interface vlan 125
+ip address 192.168.250.253 255.255.255.0
+description SW-GRP05
+exit
+interface giga 0/1
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 25,99,125
+no shutdown
+exit
+do wr
